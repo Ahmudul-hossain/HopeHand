@@ -1,0 +1,153 @@
+/* Misty */
+
+/*Home, Login, Registration,AboutUs, HowItWorks, RoleSelector, NgoPage,
+   Restaurant, ProfileRes, ProfileNgo*/
+
+.navbar {
+    padding: 15px 60px;
+    border-bottom: 1px solid #ccc;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.logo img {
+    width: 50px;
+    height: 50px;
+}
+.logo-text h1 {
+    font-size: 22px;
+}
+.hope {
+    color: #1a7a3c;
+}
+.hand {
+    color: #f28c28;
+}
+.logo-text p {
+    font-size: 12px;
+    color: #1a7a3c;
+}
+
+/* Buttons on every page */
+.btn {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-green {
+    background-color: #1a7a3c;
+}
+.btn-orange {
+    background-color: #f28c28;
+}
+ 
+/* Login.jsx, Registration.jsx, HowItWorks.jsx, ResturantNGOSelector.jsx */
+.hero {
+    text-align: center;
+    padding: 60px 20px 30px;
+}
+.hero h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.brand-green {
+    color: #1a7a3c;
+}
+.hero p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.divider {
+    width: 50px;
+    height: 3px;
+    background-color: #1a7a3c;
+    margin: 0 auto;
+}
+
+/* NgoPage.jsx ,Restaurant.jsx  */
+.donations-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.donations-table th {
+    text-align: left;
+    font-size: 12px;
+    color: #777;
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.donations-table td {
+    padding: 14px 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.donations-table tr:last-child td {
+    border-bottom: none;
+}
+.welcome-label {
+    font-size: 16px;
+    color: #333;
+}
+.welcome-banner {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px 30px;
+    margin: 0 50px 20px 0;
+}
+.welcome-name {
+    color: #1a7a3c;
+    font-size: 28px;
+    margin: 5px 0 10px;
+}
+.panel-header {
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+  }
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .donations-panel {
+    overflow-x: auto;
+  }
+  .donations-table {
+    min-width: 500px;
+  }
+  .welcome-name {
+    font-size: 1.4rem;
+  }
+  .site-footer {
+    flex-direction: column;
+  }
+  .card-container {
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+  }
+  .card {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 480px) {
+  .navbar {
+    text-align: center;
+  }
+}
