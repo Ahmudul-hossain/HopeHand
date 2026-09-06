@@ -1,30 +1,5 @@
 /* Bipasha */
 
-/* every page */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-html, body {
-    height: 100%;
-}
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f0;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-img {
-    max-width: 100%;
-}
-#root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
 /* Home page */
 .hero-main {
     position: relative;
@@ -46,19 +21,6 @@ img {
     border-radius: 30px;
     font-weight: bold;
     outline: none;
-}
-.home-tagline {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-}
-.home-tagline p {
-    font-size: 20px;
-    color: #1a7a3c;
-    font-weight: 600;
 }
 /*  ResturantNGOSelector.jsx   */
 .card-container {
@@ -91,6 +53,7 @@ img {
 .card-ngo {
     border-color: #f28c28;
 }
+
 /* Registration.jsx, Login.jsx  */
 .registration-form {
     display: flex;
@@ -127,6 +90,7 @@ img {
     outline: none;
     border-color: #1a7a3c;
 }
+
 /* About US */
 .page-container {
     max-width: 1200px;
@@ -194,4 +158,51 @@ img {
     .team-card {
         aspect-ratio: auto;
     }
+}
+
+@media (max-width: 600px) {
+  .btn-hero {
+    padding: 10px 22px;
+    font-size: 14px;
+  }
+  .registration-form {
+    padding: 15px 15px 40px;
+  }
+  .registration-form form {
+    padding: 25px 20px;
+  }
+}
+@media (max-width: 768px) {
+  .card-container {
+    gap: 30px;
+  }
+}
+@media (max-width: 480px) {
+  .btn-hero {
+    padding: 8px 18px;
+    font-size: 13px;
+    top: 45%;
+  }
+  .team-grid {
+    padding: 20px;
+  }
+}
+@media (max-width: 900px) {
+  .card-container {
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+  .card {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+.site-footer {
+    background-color: #1a7a3c;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 160px 60px 150px;
+    gap: 20px;
 }

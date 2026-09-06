@@ -4,7 +4,7 @@ function Home() {
     <>
       <section className="hero-main">
         <img src="/images/first-image.jpg" className="hero-img" />
-        <Link to="/RestaurantNGOSelector" className="btn btn-green btn-hero">Get Started →</Link>
+        <Link to="/restaurant-ngo-selector" className="btn btn-green btn-hero">Get Started →</Link>
       </section>
       <footer className="site-footer">
         <div className="footer-col">
@@ -15,7 +15,7 @@ function Home() {
         <div className="footer-col">
           <h4>Quick Links</h4>
           <Link to="/how-it-works" className="footer-link">How It Works</Link>
-          <Link to="/aboutus" className="footer-link">About Us</Link>
+          <Link to="/about-us" className="footer-link">About Us</Link>
         </div>
       </footer>
     </>
