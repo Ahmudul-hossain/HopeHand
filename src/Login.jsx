@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { setLoggedIn } from './auth';
 
 function Login() {
   const location = useLocation();
@@ -35,8 +36,9 @@ function Login() {
         return;
       }
 
-      const actualDestination = data.user.role === 'ngo' ? '/ngopage' : '/restaurant';
-      navigate(actualDestination);
+      const actualDestination = data.user.role === 'ngo' ? '/ngo-page' : '/home-page';
+      setLoggedIn(data.user.role);
+      navigate(actualDestination, { replace: true });
     } catch (err) {
       setError('Something went wrong. Please try again.');
       setLoading(false);
@@ -90,7 +92,7 @@ function Login() {
           </button>
           <p style={{ marginTop: '1rem', textAlign: 'center' }}>
             Don't have an account?{' '}
-            <Link to="/registration-page" state={{ role }} className="brand-green">Register</Link>
+            <Link to="/res-ngo-selector" className="brand-green">Register</Link>
           </p>
         </form>
       </section>
