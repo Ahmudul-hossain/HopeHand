@@ -1,49 +1,28 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { clearLogin } from './auth';
 
-function NgoDash() {
+function NgoHistory() {
   const navigate = useNavigate();
-  const [ngo, setNgo] = useState({ name: "" });
-  const [showBackWarning, setShowBackWarning] = useState(false);
+  const [history, setHistory] = useState([]);
 
-  const donations = [
-    { id: 1, restaurant: "Amader Kitchen", contact: "01234567890", address: "Kallayanpur, Dhaka", packets: 20 },
-    { id: 2, restaurant: "Bismillah Hotel", contact: "01987654321", address: "Mirpur, Dhaka", packets: 15 },
-    { id: 3, restaurant: "Star Kabab", contact: "01712345678", address: "Dhanmondi, Dhaka", packets: 12 },
-  ];
-
-  /* Bipasha*/
   useEffect(() => {
-  async function fetchProfile() {
+    fetchHistory();
+  }, []);
+
+  async function fetchHistory() {
     try {
-      const res = await fetch('http://localhost:4000/auth/me', {
+      const res = await fetch('http://localhost:4000/requests/history/ngo', {
         credentials: 'include',
       });
       const data = await res.json();
-      if (res.ok && data.user) {
-        setNgo(data.user);
-      }
+      setHistory(data.history || []);
     } catch (err) {
+      console.log(err);
+      setHistory([]);
     }
   }
-  fetchProfile();
-}, []);
-/*end*/
 
-  useEffect(() => {
-    window.history.pushState(null, '', window.location.href);
-
-    function handlePopState() {
-      window.history.pushState(null, '', window.location.href);
-      setShowBackWarning(true);
-    }
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-/*misty*/
   async function handleLogout() {
     try {
       await fetch('http://localhost:4000/auth/logout', {
@@ -52,10 +31,9 @@ function NgoDash() {
       });
     } catch (err) {
     }
-    clearLogin();
+       clearLogin();
     navigate('/log-in', { state: { role: 'ngo' }, replace: true });
   }
-/*End*/
 
   return (
     <>
@@ -63,10 +41,7 @@ function NgoDash() {
         <div className="logo">
           <img src="/images/logo-icon.png" alt="HopeHand logo" />
           <div className="logo-text">
-            <h1>
-              <span className="hope">Hope</span>
-              <span className="hand">Hand</span>
-            </h1>
+            <h1><span className="hope">Hope</span><span className="hand">Hand</span></h1>
             <p>Sharing Food, Sharing Hope</p>
           </div>
         </div>
@@ -75,7 +50,7 @@ function NgoDash() {
       <div className="dashboard-layout">
         <aside className="sidebar">
           <nav className="sidebar-nav">
-            <Link to="/ngo-page" className="sidebar-link active">
+            <Link to="/ngo-page" className="sidebar-link">
               <span className="sidebar-icon">🏠</span>Home
             </Link>
             <Link to="/pro-ngo" className="sidebar-link">
@@ -84,7 +59,7 @@ function NgoDash() {
             <Link to="/food-requests" className="sidebar-link">
               <span className="sidebar-icon">🍱</span>Food Requests
             </Link>
-            <Link to="/history-page" className="sidebar-link">
+            <Link to="/history-page" className="sidebar-link active">
               <span className="sidebar-icon">📜</span>History
             </Link>
             <Link to="/how-it-works" state={{ role: 'ngo' }} className="sidebar-link">
@@ -101,14 +76,14 @@ function NgoDash() {
 
         <div className="dashboard-content">
           <section className="welcome-banner">
-            <h2 className="welcome-name">{ngo.name}</h2>
+            <h2 className="welcome-name">Donation History</h2>
           </section>
 
           <section className="content-columns">
             <div className="main-column">
               <div className="donations-panel">
                 <div className="panel-header">
-                  <h3>Available Food Donations</h3>
+                  <h3>Donation History</h3>
                 </div>
                 <hr className="panel-divider" />
                 <table className="donations-table">
@@ -118,17 +93,25 @@ function NgoDash() {
                       <th>Contact</th>
                       <th>Address</th>
                       <th>Food Packets</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {donations.map((item) => (
-                      <tr key={item.id}>
-                        <td>{item.restaurant}</td>
-                        <td>{item.contact}</td>
-                        <td>{item.address}</td>
-                        <td>{item.packets}</td>
+                    {history.length === 0 ? (
+                      <tr>
+                        <td colSpan="5">Kono history nai ekhono.</td>
                       </tr>
-                    ))}
+                    ) : (
+                      history.map((item) => (
+                        <tr key={item._id}>
+                          <td>{item.donationId?.restaurantId?.name || 'N/A'}</td>
+                          <td>{item.donationId?.restaurantId?.contact || 'N/A'}</td>
+                          <td>{item.donationId?.restaurantId?.address || 'N/A'}</td>
+                          <td>{item.requestedPackets ?? 'N/A'}</td>
+                          <td>{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'}</td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -136,27 +119,10 @@ function NgoDash() {
           </section>
         </div>
       </div>
-      {showBackWarning && (
-        <div className="back-warning-overlay">
-          <div className="back-warning-box">
-            <button
-              className="back-warning-close"
-              onClick={() => setShowBackWarning(false)}
-            >
-              ✕
-            </button>
-            <div className="back-warning-icon">🔒</div>
-            <h3>Can't Go Back</h3>
-            <p>You need to logout to go back.</p>
-          </div>
-        </div>
-      )}
+
       <footer className="site-footer">
         <div className="footer-col">
-          <h4>
-            <span className="footer-hope">Hope</span>
-            <span className="hand">Hand</span>
-          </h4>
+          <h4><span className="footer-hope">Hope</span><span className="hand">Hand</span></h4>
           <p>Sharing Food, Sharing Hope</p>
           <p>Every meal shared is a step towards a hunger-free community.</p>
         </div>
@@ -169,5 +135,4 @@ function NgoDash() {
     </>
   );
 }
-
-export default NgoDash;
+export default NgoHistory;
