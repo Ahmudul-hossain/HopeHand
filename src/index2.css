@@ -1,11 +1,40 @@
 /* Misty */
 
+/* every page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+img {
+    max-width: 100%;
+}
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 /*Home, Login, Registration,AboutUs, HowItWorks, RoleSelector, NgoPage,
    Restaurant, ProfileRes, ProfileNgo*/
 
 .navbar {
     padding: 15px 60px;
     border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .logo {
     display: flex;
@@ -48,7 +77,7 @@
 .btn-orange {
     background-color: #f28c28;
 }
- 
+
 /* Login.jsx, Registration.jsx, HowItWorks.jsx, ResturantNGOSelector.jsx */
 .hero {
     text-align: center;
@@ -93,24 +122,6 @@
 .donations-table tr:last-child td {
     border-bottom: none;
 }
-.welcome-label {
-    font-size: 16px;
-    color: #333;
-}
-.welcome-banner {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 25px 30px;
-    margin: 0 50px 20px 0;
-}
-.welcome-name {
-    color: #1a7a3c;
-    font-size: 28px;
-    margin: 5px 0 10px;
-}
-.panel-header {
-    margin-bottom: 15px;
-}
 
 @media (max-width: 768px) {
   .dashboard-layout {
@@ -130,11 +141,11 @@
     min-width: 500px;
   }
   .welcome-name {
-    font-size: 1.4rem;
-  }
-  .site-footer {
-    flex-direction: column;
-  }
+    color: #1a7a3c;
+    font-size: 28px;
+    margin: 5px 0 10px;
+    overflow-wrap: break-word;
+}
   .card-container {
     flex-direction: column;
     gap: 30px;
@@ -145,9 +156,237 @@
     max-width: 320px;
     margin: 0 auto;
   }
+  .stats-row {
+    flex-direction: column;
+  }
 }
 @media (max-width: 480px) {
   .navbar {
+    flex-direction: column;
     text-align: center;
+    gap: 12px;
   }
+}
+
+.delete-btn {
+  border: 1px solid #e04b4b;
+  background-color: white;
+  color: #e04b4b;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .logo img {
+    width: 40px;
+    height: 40px;
+  }
+  .logo-text p {
+    display: none; 
+  }
+  .donations-table th,
+  .donations-table td {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+}
+/*my new resturant code */
+/* Stat Cards */
+.stats-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  background: #f0f7f0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Table row hover + zebra stripe */
+.donations-table tbody tr:hover {
+  background-color: #f5faf5;
+}
+
+.donations-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Packets badge */
+.packets-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 2rem 0;
+  color: #999;
+}
+
+.empty-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+/* Add Food Donation modal box */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 14px;
+  padding: 35px 30px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-box h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #1a1a1a;
+}
+
+.modal-form-group input:focus {
+  outline: none;
+  border-color: #1a7a3c;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1a7a3c;
+}
+.back-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+.back-warning-box {
+  background: #ffffff;
+  width: 260px;
+  height: 260px;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.back-warning-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.back-warning-box h3 {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.back-warning-box p {
+  font-size: 14px;
+  color: #555;
+}
+
+.back-warning-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #555;
 }
