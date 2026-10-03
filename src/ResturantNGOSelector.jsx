@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 
-function RoleSelector() {
+function ResturantNGOSelector() {
   return (
     <>
       <header className="navbar">
@@ -11,38 +12,58 @@ function RoleSelector() {
             <p>Sharing Food, Sharing Hope</p>
           </div>
         </div>
+
+        {/* Log In button in the top-right header */}
+        <div className="navbar-actions">
+          <div className="navbar-actions selector-nav">
+          <Link to="/log-in" state={{ role: 'restaurant' }} className="nav-login-btn">Log in as Restaurant</Link>
+          <Link to="/log-in" state={{ role: 'ngo' }} className="nav-login-btn">Log in as NGO</Link>
+          <Link to="/view-page" className="nav-login-btn">Home</Link>
+          <Link to="/how-it-works" className="nav-login-btn">How It Works</Link>
+          <Link to="/about-us" className="nav-login-btn">About Us</Link>
+       </div>
+       </div>
       </header>
-        <div className="dashboard-content">
-          <section className="hero">
-            <h2>Join <span className="brand-green">HopeHand</span></h2>
-            <p>Choose your role to Register</p>
-            <div className="divider"></div>
-          </section>
-          <section className="card-container">
-            <div className="card card-resturant">
-              <div className="card-icon">🍽️</div>
-              <h3>Resturant</h3>
-              <p>Donate leftover food</p>
-              <Link to="/registration" state={{ role: 'restaurant' }} className="btn btn-green">Continue as Restaurant →</Link>
+
+      <div className="dashboard-content">
+        <section className="hero">
+          <h2>Join <span className="brand-green">Hope</span><span className="hand">Hand</span></h2>
+          <p>Be a part of a kind community that connects food with people in need.</p>
+          <div className= "divider"></div>
+        </section>
+
+        {/* Role Cards */}
+        <section className="card-container">
+          {/* Restaurant Block */}
+          <div className="card card-resturant">
+            <div className="card-icon icon-restaurant">
+              <img src="/images/Restaurent.png" alt="Restaurant icon" />
             </div>
-            <div className="card card-ngo">
-              <div className="card-icon">👥</div>
-              <h3>NGO/Otherts</h3>
-              <p>Receive foord for those in need</p>
-              <Link to="/registration" state={{ role: 'ngo' }} className="btn btn-orange">Continue as NGO/Others →</Link>
+            <h3>Restaurant</h3>
+            <p>Donate leftover food and make a difference.</p>
+            <Link to="/reg-page" state={{ role: 'restaurant' }} className="btn btn-green" >Continue as Restaurant → </Link>
+          </div>
+
+          {/* NGO / Others Block */}
+          <div className="card card-ngo">
+            <div className="card-icon icon-ngo">
+              <img src="/images/Ngo.png" alt="NGO icon" />
             </div>
-          </section>
-        </div>
-      <footer className="site-footer">
-        <div className="footer-col">
-          <h4><span className="footer-hope">Hope</span><span className="hand">Hand</span></h4>
-          <p>Sharing Food, Sharing Hope</p>
-          <p>Connecting restaurants with NGOs to reduce food waste and help communities.</p>
-        </div>
-        <div className="footer-col">
-        </div>
-      </footer>
+            <h3>NGO/Others</h3>
+            <p>Receive food for those in need.</p>
+            <Link
+              to="/reg-page"
+              state={{ role: 'ngo' }}
+              className="btn btn-orange"
+            >
+              Continue as NGO/Others →
+            </Link>
+          </div>
+        </section>
+      </div>
+      <Footer />
     </>
   );
 }
-export default RoleSelector;
+
+export default ResturantNGOSelector;
