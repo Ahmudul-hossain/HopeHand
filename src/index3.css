@@ -53,33 +53,10 @@
   }
 }
 
-.profile-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-}
-.profile-actions .btn {
-  width: auto;
-  flex: 1;
-  margin-top: 0;
-  text-align: center;
-}
-
 .panel-divider {
   border: none;
   border-top: 1px solid #e0e0e0;
   margin: 0 0 15px;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 4px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.detail-row:last-of-type {
-  border-bottom: none;
 }
 
 /* Bipasha */
@@ -132,20 +109,6 @@
   font-size: 13px;
   color: #666;
 }
-
-.detail-label {
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  flex-shrink: 0;
-}
-.detail-value {
-  font-size: 14px;
-  color: #555;
-  text-align: right;
-  min-width: 0;
-  overflow-wrap: break-word;
-}
 /* End*/
 
 .content-columns {
@@ -159,9 +122,6 @@
 
 /* misty for making the project responsive */
 @media (max-width: 768px) {
-  .dashboard-layout .dashboard-content {
-    padding: 15px;
-  }
   .welcome-banner {
     margin: 0 0 20px 0;
     padding: 18px 20px;
@@ -190,65 +150,4 @@
   .how-step-row {
     gap: 10px;
   }
-}
-@media (max-width: 480px) {
-  .detail-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  .detail-value {
-    text-align: left;
-  }
-  .profile-actions {
-    flex-direction: column;
-  }
-}
-
-/* added edit button - ev:3*/
-.detail-input {
-  font-size: 14px;
-  color: #333;
-  text-align: right;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 6px 10px;
-  width: 60%;
-}
-
-.success-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  color: #1a7a3c;
-  padding: 30px 50px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  animation: fadeInOut 2.5s ease forwards;
-  z-index: 1000;
-}
-
-.success-tick {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  margin: 0 auto 12px;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.success-popup p {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-@keyframes fadeInOut {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-  10%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  90%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
 }
