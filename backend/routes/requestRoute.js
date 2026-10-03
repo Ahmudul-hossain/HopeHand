@@ -4,6 +4,7 @@ import {
   acceptRequest,
   declineRequest,
   getRestaurantHistory,
+  deleteHistoryEntry,
 } from "../controllers/requestController.restaurant.js";
 import {
   createRequest,
@@ -20,6 +21,7 @@ router.patch("/:id/accept", protect, acceptRequest);
 router.patch("/:id/decline", protect, declineRequest);
 router.get("/mine/new-accepted", protect, getNewAcceptedRequests);
 router.get("/history/restaurant", protect, getRestaurantHistory);
+router.delete("/:id", protect, deleteHistoryEntry);
 router.get("/history/ngo", protect, getNgoHistory);
 
 export default router;

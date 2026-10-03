@@ -1,13 +1,19 @@
 import { Navigate } from 'react-router-dom';
-import { isLoggedIn, getRole } from './auth';
+import { useAuth } from './AuthContext';
 
 function ProtectedRoute({ children, allowedRole }) {
-  if (!isLoggedIn()) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return null; // or a spinner if you have one
+  }
+
+  if (!user) {
     return <Navigate to="/res-ngo-selector" replace />;
   }
 
-  if (allowedRole && getRole() !== allowedRole) {
-    const myHome = getRole() === 'ngo' ? '/ngo-page' : '/home-page';
+  if (allowedRole && user.role !== allowedRole) {
+    const myHome = user.role === 'ngo' ? '/ngo-page' : '/home-page';
     return <Navigate to={myHome} replace />;
   }
 

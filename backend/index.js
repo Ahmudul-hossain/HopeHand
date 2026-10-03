@@ -9,6 +9,8 @@ import dotenv from "dotenv";
 import dns from "dns";
 import donationRouter from "./routes/donationRoute.js";
 import requestRouter from "./routes/requestRoute.js";
+import complaintRouter from "./routes/complaintRoute.js";
+import { carbonTracker } from "./middlewares/carbonTracker.js";
 dotenv.config();
 console.log("JWT_SECRET loaded:", process.env.JWT_SECRET);
 
@@ -41,15 +43,18 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(carbonTracker);  
 app.use(log);
-app.use(errorHandler);
-
 app.get("/", (req, res) => {
   res.status(200).json({ message: "HULULU" });
 });
 app.use("/auth", authRouter);
 app.use("/donations", donationRouter);
 app.use("/requests", requestRouter);
+app.use("/complaints", complaintRouter);
+
+app.use(errorHandler); 
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

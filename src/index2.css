@@ -1,135 +1,110 @@
-/* Misty */
-
-/* every page */
+/*misty*/
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 html, body {
-    height: 100%;
+  height: 100%;
 }
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f0;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 #root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-
-/*Home, Login, Registration,AboutUs, HowItWorks, RoleSelector, NgoPage,
-   Restaurant, ProfileRes, ProfileNgo*/
-
 .navbar {
-    padding: 15px 60px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 15px 60px;
+  border-bottom: 1px solid #ccc;
 }
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .logo img {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 .logo-text h1 {
-    font-size: 22px;
+  font-size: 22px;
 }
 .hope {
-    color: #1a7a3c;
+  color: #1a7a3c;
 }
 .hand {
-    color: #f28c28;
+  color: #f28c28;
 }
 .logo-text p {
-    font-size: 12px;
-    color: #1a7a3c;
+  font-size: 12px;
+  color: #1a7a3c;
 }
-
-/* Buttons on every page */
 .btn {
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 15px;
-    color: white;
-    width: 100%;
-    margin-top: 15px;
-    text-decoration: none;
-    display: inline-block;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  color: white;
+  width: 100%;
+  margin-top: 15px;
+  text-decoration: none;
+  display: inline-block;
 }
 .btn-green {
-    background-color: #1a7a3c;
+  background-color: #1a7a3c;
 }
 .btn-orange {
-    background-color: #f28c28;
+  background-color: #f28c28;
 }
-
-/* Login.jsx, Registration.jsx, HowItWorks.jsx, ResturantNGOSelector.jsx */
 .hero {
-    text-align: center;
-    padding: 60px 20px 30px;
+  text-align: center;
+  padding: 60px 20px 30px;
 }
 .hero h2 {
-    font-size: 36px;
-    margin-bottom: 10px;
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 .brand-green {
-    color: #1a7a3c;
+  color: #1a7a3c;
 }
 .hero p {
-    color: #555;
-    font-size: 16px;
-    margin-bottom: 15px;
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 15px;
 }
 .divider {
-    width: 50px;
-    height: 3px;
-    background-color: #1a7a3c;
-    margin: 0 auto;
+  width: 50px;
+  height: 3px;
+  background-color: #1a7a3c;
+  margin: 0 auto;
 }
-
-/* NgoPage.jsx ,Restaurant.jsx  */
 .donations-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 .donations-table th {
-    text-align: left;
-    font-size: 12px;
-    color: #777;
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 12px;
+  color: #777;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
 }
 .donations-table td {
-    padding: 14px 8px;
-    font-size: 14px;
-    border-bottom: 1px solid #e5e5e5;
+  padding: 14px 8px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e5e5;
 }
 .donations-table tr:last-child td {
-    border-bottom: none;
+  border-bottom: none;
 }
-
 @media (max-width: 768px) {
-  .dashboard-layout {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-  }
   .sidebar-nav {
     display: flex;
     flex-wrap: wrap;
@@ -141,23 +116,7 @@ img {
     min-width: 500px;
   }
   .welcome-name {
-    color: #1a7a3c;
-    font-size: 28px;
-    margin: 5px 0 10px;
     overflow-wrap: break-word;
-}
-  .card-container {
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px;
-  }
-  .card {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-  .stats-row {
-    flex-direction: column;
   }
 }
 @media (max-width: 480px) {
@@ -167,7 +126,6 @@ img {
     gap: 12px;
   }
 }
-
 .delete-btn {
   border: 1px solid #e04b4b;
   background-color: white;
@@ -182,69 +140,19 @@ img {
     height: 40px;
   }
   .logo-text p {
-    display: none; 
+    display: none;
   }
-  .donations-table th,
-  .donations-table td {
+  .donations-table th, .donations-table td {
     font-size: 12px;
     padding: 8px 4px;
   }
 }
-/*my new resturant code */
-/* Stat Cards */
-.stats-row {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.stat-card {
-  flex: 1;
-  min-width: 0;
-  background: #fff;
-  padding: 1.2rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.stat-icon {
-  font-size: 1.8rem;
-  background: #f0f7f0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stat-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-number {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #2e7d32;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  color: #777;
-}
-
-/* Table row hover + zebra stripe */
 .donations-table tbody tr:hover {
   background-color: #f5faf5;
 }
-
 .donations-table tbody tr:nth-child(even) {
   background-color: #fafafa;
 }
-
-/* Packets badge */
 .packets-badge {
   background: #e8f5e9;
   color: #2e7d32;
@@ -253,19 +161,15 @@ img {
   font-weight: 600;
   font-size: 0.85rem;
 }
-
-/* Empty state */
 .empty-state {
   text-align: center;
   padding: 2rem 0;
   color: #999;
 }
-
 .empty-icon {
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
-/* Add Food Donation modal box */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -279,7 +183,6 @@ img {
   z-index: 200;
   padding: 16px;
 }
-
 .modal-box {
   background: #ffffff;
   width: 100%;
@@ -291,7 +194,6 @@ img {
   max-height: 90vh;
   overflow-y: auto;
 }
-
 .modal-close {
   position: absolute;
   top: 14px;
@@ -302,37 +204,10 @@ img {
   cursor: pointer;
   color: #555;
 }
-
 .modal-box h2 {
   margin-bottom: 20px;
   font-size: 22px;
   color: #1a1a1a;
-}
-
-.modal-form-group input:focus {
-  outline: none;
-  border-color: #1a7a3c;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 14px;
-  color: #333;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #1a7a3c;
 }
 .back-warning-overlay {
   position: fixed;
@@ -346,7 +221,6 @@ img {
   justify-content: center;
   z-index: 300;
 }
-
 .back-warning-box {
   background: #ffffff;
   width: 260px;
@@ -363,23 +237,19 @@ img {
   padding: 20px;
   position: relative;
 }
-
 .back-warning-icon {
   font-size: 36px;
   margin-bottom: 10px;
 }
-
 .back-warning-box h3 {
   font-size: 18px;
   color: #1a1a1a;
   margin-bottom: 8px;
 }
-
 .back-warning-box p {
   font-size: 14px;
   color: #555;
 }
-
 .back-warning-close {
   position: absolute;
   top: 12px;
@@ -389,4 +259,337 @@ img {
   font-size: 18px;
   cursor: pointer;
   color: #555;
+}
+.welcome-banner {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff 60%, #eaf7ee 100%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+.welcome-banner::after {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 110px;
+  height: 110px;
+  background-image: url('/images/logo-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+}
+.donations-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+.panel-header h3::before {
+  content: "🍽️ ";
+}
+body {
+  background-color: #f9fdf9;
+}
+@keyframes hh-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.welcome-banner, .donations-panel {
+  animation: hh-fade-in 0.5s ease both;
+}
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+}
+.welcome-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1a7a3c;
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.donations-panel {
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 600px) {
+  .welcome-banner {
+    flex-wrap: wrap;
+  }
+}
+.impact-text {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: #eef3ee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a7a3c, #4caf50);
+}
+.activity-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+}
+.activity-row:last-child {
+  border-bottom: none;
+}
+.btn:hover {
+  filter: brightness(0.92);
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px 2px rgba(26, 122, 60, 0.5);
+}
+.activity-row {
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+.activity-row:hover {
+  background-color: #f5faf5;
+}
+@keyframes hh-pulse {
+  0%, 100% {
+    box-shadow: 0 3px 10px rgba(123, 79, 163, 0.15);
+  }
+  50% {
+    box-shadow: 0 3px 20px rgba(123, 79, 163, 0.45);
+  }
+}
+@keyframes hh-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.skeleton-bar {
+  height: 18px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: hh-shimmer 1.2s ease-in-out infinite;
+}
+.donations-panel, .modal-box {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.donations-panel:hover, .modal-box:hover {
+  box-shadow: 0 0 14px 3px rgba(26, 122, 60, 0.5);
+  transform: translateY(-3px);
+}
+.form-group input {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.form-group input:hover, .form-group input:focus {
+  box-shadow: 0 0 10px 2px rgba(26, 122, 60, 0.5);
+  border-color: #1a7a3c;
+}
+.navbar-profile-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #1a7a3c;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.navbar-profile-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px 3px rgba(26, 122, 60, 0.5);
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.settings-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 0;
+  background: #1a7a3c;
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  grid-template-rows: repeat(3, 4px);
+  place-content: center;
+  gap: 6px;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.settings-toggle:hover, .settings-toggle:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px 3px rgba(26, 122, 60, 0.5);
+  outline: none;
+}
+/* While the settings drawer is open: hide the sidebar button, keep the settings button on top */
+body:has(.settings-drawer.open) .door-toggle {
+  visibility: hidden;
+}
+body:has(.settings-drawer.open) .settings-toggle {
+  position: relative;
+  z-index: 171;
+}
+.settings-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+@media (max-width: 600px) {
+  .navbar-profile-btn, .settings-toggle {
+    width: 52px;
+    height: 52px;
+  }
+}
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+.settings-option-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  border: none;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 26px 20px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #1a7a3c;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.settings-option-box:hover, .settings-option-box:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 0 16px 3px rgba(26, 122, 60, 0.45);
+  outline: none;
+}
+.settings-option-box:nth-child(2) {
+  border-left-color: #7b4fa3;
+}
+.settings-option-icon {
+  font-size: 28px;
+}
+.settings-option-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.settings-option-desc {
+  font-size: 13px;
+  color: #777;
+}
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+}
+.form-group textarea:hover, .form-group textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px 2px rgba(26, 122, 60, 0.5);
+  border-color: #1a7a3c;
+}
+.settings-drawer {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #ffffff 0%, #f4faf5 100%);
+  position: relative;
+  overflow: hidden;
+}
+.settings-drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #d9e5d9;
+  position: relative;
+  z-index: 1;
+}
+.settings-drawer-footer {
+  margin-top: auto;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  padding-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+.settings-drawer::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 160px;
+  height: 160px;
+  background-image: url('/images/logo-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.form-group .password-wrap {
+  position: relative;
+}
+.form-group .password-wrap input {
+  padding-right: 46px;
+}
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+}
+.password-toggle:hover {
+  color: #1a7a3c;
 }

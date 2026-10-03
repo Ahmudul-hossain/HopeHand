@@ -28,6 +28,9 @@ export const acceptRequest = asyncHandler(async (req, res) => {
   if (String(request.donationId.restaurantId) !== String(req.userId)) {
     return res.status(403).json({ error: "Not your donation" });
   }
+  if (request.requestedPackets > request.donationId.remainingPackets) {
+    return res.status(400).json({ error: "Not enough packets left to accept this request" });
+  }
 
   request.status = "accepted";
   await request.save();
@@ -46,6 +49,9 @@ export const declineRequest = asyncHandler(async (req, res) => {
   const request = await Request.findById(id).populate("donationId");
   if (!request) {
     return res.status(404).json({ error: "Request not found" });
+  }
+  if (request.status !== "pending") {
+    return res.status(400).json({ error: "Request already processed" });
   }
   if (String(request.donationId.restaurantId) !== String(req.userId)) {
     return res.status(403).json({ error: "Not your donation" });
@@ -68,4 +74,21 @@ export const getRestaurantHistory = asyncHandler(async (req, res) => {
     .sort({ updatedAt: -1 });
 
   return res.status(200).json({ history });
+});
+
+// Restaurant part: history theke ekta entry delete kora
+export const deleteHistoryEntry = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const request = await Request.findById(id).populate("donationId");
+  if (!request) {
+    return res.status(404).json({ error: "History entry not found" });
+  }
+  if (String(request.donationId.restaurantId) !== String(req.userId)) {
+    return res.status(403).json({ error: "Not your history entry" });
+  }
+
+  await Request.deleteOne({ _id: id });
+
+  return res.status(200).json({ message: "History entry deleted" });
 });
