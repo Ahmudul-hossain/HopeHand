@@ -1,85 +1,132 @@
-import { useState, useEffect } from "react"; 
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { clearLogin } from './auth';
+import DoorMenu from './sidebar';
+import Footer from './Footer';
+import { useAuth } from './AuthContext';
+
+const CONTACT_PATTERN = /^[0-9]{10,15}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const FIELDS = [
+  { name: 'name', label: 'NGO / Organization Name', type: 'text', icon: '🏢' },
+  { name: 'contact', label: 'Contact No', type: 'text', icon: '📞', placeholder: 'e.g. 1234567890' },
+  { name: 'email', label: 'Email Address', type: 'email', icon: '✉️' },
+  { name: 'address', label: 'Address', type: 'text', icon: '📍' },
+];
 
 function ProfileNgo() {
-const navigate = useNavigate();
-const [ngo, setNgo] = useState({
-  name: "",
-  contact: "",
-  email: "",
-  address: "",
-});
+  const navigate = useNavigate();
+  const { logout: clearAuthUser } = useAuth();
 
-/*Bipasha*/
-useEffect(() => {
-  async function fetchProfile() {
+  const [ngo, setNgo] = useState({
+    name: '',
+    contact: '',
+    email: '',
+    address: '',
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileMsg, setProfileMsg] = useState('');
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await fetch('http://localhost:4000/auth/me', {
+          credentials: 'include',
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          setNgo(data.user);
+        }
+      } catch (err) { }
+    }
+    fetchProfile();
+  }, []);
+
+  function handleChange(e) {
+    setNgo({ ...ngo, [e.target.name]: e.target.value });
+  }
+
+  async function handleSaveProfile() {
+    if (FIELDS.some(({ name }) => String(ngo[name] ?? '').trim() === '')) {
+      setProfileMsg('All fields must be filled');
+      return;
+    }
+
+    if (!CONTACT_PATTERN.test(ngo.contact)) {
+      setProfileMsg('Contact number must be 10 to 15 digits only');
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(ngo.email)) {
+      setProfileMsg('Please give a valid email address');
+      return;
+    }
+
     try {
-      const res = await fetch('http://localhost:4000/auth/me', {
+      const res = await fetch('http://localhost:4000/auth/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
+        body: JSON.stringify({
+          name: ngo.name,
+          contact: ngo.contact,
+          address: ngo.address,
+          email: ngo.email,
+        }),
       });
       const data = await res.json();
-      if (res.ok && data.user) {
-        setNgo(data.user);
+      if (!res.ok) {
+        setProfileMsg(data.error || 'Something went wrong');
+        return;
       }
+
+      setNgo(data.user);
+      setIsEditing(false);
+      setProfileMsg('Profile updated!');
+      setTimeout(() => setProfileMsg(''), 2000);
     } catch (err) {
+      setProfileMsg('Server error, try again');
     }
   }
-  fetchProfile();
-}, []);
-/*End*/
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const handleChange = (e) => {
-    setNgo({ ...ngo, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    setIsEditing(false);
-    setShowSuccess(true);
-
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 2500);
-  };
-
-/*misty*/
   async function handleLogout() {
     try {
       await fetch('http://localhost:4000/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
-    } catch (err) {
-      // backend na thakleo frontend theke logout hoye jabe
-    }
+    } catch (err) { }
+
     clearLogin();
+    clearAuthUser();
     navigate('/log-in', { state: { role: 'ngo' }, replace: true });
   }
-/*End*/
 
   return (
     <>
       <header className="navbar">
         <div className="logo">
           <img src="/images/logo-icon.png" alt="HopeHand logo" />
-
           <div className="logo-text">
-            <h1>
-              <span className="hope">Hope</span>
-              <span className="hand">Hand</span>
-            </h1>
-
+            <h1><span className="hope">Hope</span><span className="hand">Hand</span></h1>
             <p>Sharing Food, Sharing Hope</p>
           </div>
         </div>
-      </header>
 
-      <div className="dashboard-layout">
-        <aside className="sidebar">
-          <nav className="sidebar-nav">
+        <div className="navbar-right">
+          <Link to="/ngo-page" className="back-toggle" aria-label="Back to dashboard">
+            <img src="/images/back-button.png" alt="" />
+          </Link>
+
+          <Link to="/pro-ngo" className="navbar-profile-btn" aria-label="Go to profile">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+            </svg>
+          </Link>
+
+          <DoorMenu>
             <Link to="/ngo-page" className="sidebar-link">
               <span className="sidebar-icon">🏠</span>
               Home
@@ -100,20 +147,12 @@ useEffect(() => {
               History
             </Link>
 
-            <Link
-              to="/how-it-works"
-              state={{ role: "ngo" }}
-              className="sidebar-link"
-            >
+            <Link to="/how-it-works" state={{ role: 'ngo' }} className="sidebar-link">
               <span className="sidebar-icon">⚙️</span>
               How It Works
             </Link>
 
-            <Link
-              to="/about-us"
-              state={{ role: "ngo" }}
-              className="sidebar-link"
-            >
+            <Link to="/about-us" state={{ role: 'ngo' }} className="sidebar-link">
               <span className="sidebar-icon">ℹ️</span>
               About Us
             </Link>
@@ -122,140 +161,71 @@ useEffect(() => {
               <span className="sidebar-icon">↪️</span>
               Logout
             </a>
-          </nav>
-        </aside>
+          </DoorMenu>
+        </div>
+      </header>
 
-        <div className="dashboard-content">
-          <section className="welcome-banner">
-            <h2 className="welcome-name">{ngo.name}</h2>
-          </section>
+      <main className="rp-page">
+        <div className="rp-banner"></div>
 
-          <section className="content-columns">
-            <div className="main-column">
-              <div className="donations-panel">
-                <div className="panel-header">
-                  <h3>NGO Details</h3>
-                </div>
+        <form
+          className="rp-container"
+          onSubmit={(e) => { e.preventDefault(); if (isEditing) handleSaveProfile(); }}
+        >
+          <div className="rp-header">
+            <img src="/images/NGO_LOGO.jpg" alt="NGO logo" className="rp-avatar" />
 
-                <hr className="panel-divider" />
-
-                <div className="detail-row">
-                  <span className="detail-label">NGO / Organization Name</span>
-
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="name"
-                      value={ngo.name}
-                      onChange={handleChange}
-                      className="detail-input"
-                    />
-                  ) : (
-                    <span className="detail-value">{ngo.name}</span>
-                  )}
-                </div>
-
-                <div className="detail-row">
-                  <span className="detail-label">Contact No</span>
-
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="contact"
-                      value={ngo.contact}
-                      onChange={handleChange}
-                      className="detail-input"
-                    />
-                  ) : (
-                    <span className="detail-value">{ngo.contact}</span>
-                  )}
-                </div>
-
-                <div className="detail-row">
-                  <span className="detail-label">Email Address</span>
-
-                  {isEditing ? (
-                    <input
-                      type="email"
-                      name="email"
-                      value={ngo.email}
-                      onChange={handleChange}
-                      className="detail-input"
-                    />
-                  ) : (
-                    <span className="detail-value">{ngo.email}</span>
-                  )}
-                </div>
-
-                <div className="detail-row">
-                  <span className="detail-label">Address</span>
-
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="address"
-                      value={ngo.address}
-                      onChange={handleChange}
-                      className="detail-input"
-                    />
-                  ) : (
-                    <span className="detail-value">{ngo.address}</span>
-                  )}
-                </div>
-
-                <div className="profile-actions">
-                  {!isEditing ? (
-                    <a
-                      href="#"
-                      className="btn btn-green"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setIsEditing(true);
-                      }}
-                    >
-                      Edit Profile
-                    </a>
-                  ) : (
-                    <a
-                      href="#"
-                      className="btn btn-orange"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleSave();
-                      }}
-                    >
-                      Save Profile
-                    </a>
-                  )}
-                </div>
-              </div>
+            <div className="rp-title">
+              <h2>{ngo.name || 'NGO'}</h2>
+              <span className="rp-badge">NGO Partner</span>
             </div>
+
+            <div className="rp-actions">
+              {!isEditing ? (
+                <button type="button" className="rp-btn" onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </button>
+              ) : (
+                <button type="button" className="rp-btn rp-btn-orange" onClick={handleSaveProfile}>
+                  Save Profile
+                </button>
+              )}
+            </div>
+          </div>
+
+          <section className="rp-section">
+            <h3>NGO Details</h3>
+
+            <div className="rp-grid">
+              {FIELDS.map(({ name, label, icon, ...inputProps }) => (
+                <div className="rp-card" key={name}>
+                  <span className="rp-card-icon">{icon}</span>
+                  <div className="rp-card-body">
+                    <label className="rp-label" htmlFor={name}>{label}</label>
+                    <input
+                      {...inputProps}
+                      id={name}
+                      name={name}
+                      className={`rp-input ${isEditing ? '' : 'rp-input-view'}`}
+                      value={ngo[name]}
+                      onChange={handleChange}
+                      readOnly={!isEditing}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {profileMsg && (
+              <p className={`rp-msg ${profileMsg === 'Profile updated!' ? 'rp-msg-ok' : 'rp-msg-error'}`}>
+                {profileMsg}
+              </p>
+            )}
           </section>
-        </div>
-      </div>
+        </form>
+      </main>
 
-      <footer className="site-footer">
-        <div className="footer-col">
-          <h4>
-            <span className="footer-hope">Hope</span>
-            <span className="hand">Hand</span>
-          </h4>
-          <p>Sharing Food, Sharing Hope</p>
-          <p>Every meal shared is a step towards a hunger-free community.</p>
-        </div>
-        <div className="footer-col">
-          <h4>Quick Links</h4>
-          <Link to="/how-it-works" className="footer-link">How It Works</Link>
-          <Link to="/about-us" className="footer-link">About Us</Link>
-        </div>
-      </footer>
-
-      {showSuccess && (
-        <div className="success-popup">
-          <div className="success-tick">✔</div>
-          <p>Profile updated successfully!</p>
-        </div>
-      )}
+      <Footer />
     </>
   );
 }

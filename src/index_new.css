@@ -1,0 +1,408 @@
+/* NGO Page*/
+
+/* Shared layout  */
+.ngo-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.ngo-section {
+  padding: 30px 20px 0;
+}
+.ngo-section-donations {
+  padding: 40px 20px 60px;
+}
+
+/*  1. Hero (banner image + glass boxes + dashboard stats) */
+.ngo-hero {
+  position: relative;
+  min-height: 560px;
+  padding: 40px 20px;
+  margin-bottom: 70px;
+  display: flex;
+  align-items: flex-start;
+  background: url('/images/ngoPrifileResturant.jpeg') center bottom / cover no-repeat;
+}
+.ngo-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+  align-items: start;
+}
+
+.ngo-hero-text {
+  max-width: 480px;
+  padding-top: 20px;
+}
+.ngo-hero-text h2 {
+  font-size: 38px;
+  color: #1a2a1e;
+  margin-bottom: 10px;
+}
+.ngo-hero-text p {
+  font-size: 17px;
+  color: #2f3b33;
+}
+
+.ngo-hero-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* glass effect: see-through white + blur */
+.highlight-card {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.highlight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-color: #81c784;
+}
+.highlight-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #eef6ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.highlight-card h4 {
+  font-size: 15px;
+  color: #1a2a1e;
+  margin-bottom: 2px;
+}
+.highlight-card p {
+  font-size: 13px;
+  color: #555;
+}
+
+/*  2. NGO Dashboard on the hero (overhangs the bottom edge) */
+.ngo-hero-dash {
+  position: absolute;
+  left: 50%;
+  bottom: -60px;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  z-index: 4;
+  text-align: left;
+}
+
+.ngo-dash-badge {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #0b4d24;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6);
+  margin-bottom: 2px;
+}
+
+.ngo-hero-dash h2 {
+  font-size: 26px;
+  color: #0b4d24;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6);
+  margin-bottom: 14px;
+}
+
+.ngo-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  text-align: left;
+}
+/* glass effect: same as the highlight boxes */
+.ngo-stat-card {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.ngo-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-color: #81c784;
+}
+.ngo-stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.ngo-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #555;
+}
+.ngo-stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+.icon-green {
+  background-color: #eef6ee;
+}
+.icon-orange {
+  background-color: #fef3e7;
+}
+.ngo-stat-number {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a2a1e;
+  margin-bottom: 6px;
+}
+.ngo-stat-sub {
+  font-size: 12px;
+  font-weight: 600;
+}
+.sub-green {
+  color: #1a7a3c;
+}
+.sub-orange {
+  color: #e8672b;
+}
+
+/* 3. Donations (heading left, cards in grid)  */
+.ngo-donations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* heading block = first cell of the grid */
+.ngo-donations-intro {
+  align-self: center;
+  padding-right: 10px;
+}
+.ngo-intro-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a7a3c;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ngo-intro-tag img {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.ngo-donations-intro h2 {
+  font-size: 38px;
+  line-height: 1.15;
+  color: #1a2a1e;
+  margin-bottom: 12px;
+}
+.ngo-intro-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+}
+.ngo-intro-line {
+  display: block;
+  width: 60px;
+  height: 2px;
+  background-color: #1a7a3c;
+  margin-top: 20px;
+}
+
+.ngo-empty {
+  grid-column: 2 / -1;
+}
+
+/* donation cards (design unchanged) */
+.food-card {
+  background-color: #ffffff;
+  border: 1.5px solid #bfe3cc;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.food-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-color: #81c784;
+}
+.food-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.food-card-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a2a1e;
+  margin-right: 8px;
+}
+.food-card-badge {
+  display: inline-block;
+  background-color: #eef6ee;
+  color: #1a7a3c;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.food-card-packets {
+  text-align: right;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 4px 12px;
+}
+.food-card-packets-number {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a2a1e;
+}
+.food-card-packets-label {
+  font-size: 10px;
+  color: #999;
+  text-transform: uppercase;
+}
+.food-card-location {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+.food-card-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
+}
+.food-card-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
+.food-card-claim {
+  margin-top: 14px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 17px;
+  padding: 14px 24px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.food-card-claim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(26, 122, 60, 0.35);
+}
+.food-card-claim .claim-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/*Responsive */
+@media (max-width: 1100px) {
+  .ngo-donations-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ngo-hero {
+    min-height: 0;
+    margin-bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ngo-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .ngo-hero-text {
+    max-width: 100%;
+    padding-top: 0;
+  }
+  .ngo-hero-dash {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .ngo-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ngo-donations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ngo-donations-intro,
+  .ngo-empty {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .ngo-hero {
+    padding: 30px 16px;
+  }
+  .ngo-hero-text h2 {
+    font-size: 26px;
+  }
+  .ngo-hero-text p {
+    font-size: 15px;
+  }
+  .ngo-donations-intro h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ngo-donations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .ngo-stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.navbar .selector-nav {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: none;
+}
+.navbar .selector-nav::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+ 
