@@ -1,55 +1,5 @@
 /* Hossain */
 
-/* NgoPage.jsx, Restaurant.jsx, ProfileRes.jsx, ProfileNgo.jsx */
-.dashboard-layout {
-    display: flex;
-    flex: 1;
-}
-.sidebar {
-    width: 260px;
-    flex-shrink: 0;
-    background-color: #ffffff;
-    border-right: 1px solid #e0e0e0;
-    padding: 20px 0;
-}
-.dashboard-layout .dashboard-content {
-    flex: 1;
-    min-width: 0;
-    background-color: #f4f7f0;
-    padding: 30px;
-}
-
-/*Sidebar links*/
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-}
-.sidebar-nav .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 24px;
-    margin: 6px 12px;
-    color: #e8722c;
-    text-decoration: none;
-    font-size: 15px;
-    border-radius: 8px;
-    background-color: #fdece0;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-.sidebar-nav .sidebar-icon {
-    font-size: 18px;
-}
-.sidebar-nav .sidebar-link:hover,
-.sidebar-nav .sidebar-link.active {
-    background-color: #f8d0ae;
-    color: #e8722c;
-}
-.sidebar-nav .logout-link {
-    margin-top: 10px; 
-}
-/*End*/
-
 .welcome-banner {
     background-color: #ffffff;
     border-radius: 12px;
@@ -78,29 +28,29 @@
     padding: 20px 0 60px;
 }
 .how-step-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
-.how-step {
-    background-color: #eef6ee;
-    border: 2px solid #1a7a3c;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: bold;
-    color: #1a2a1e;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-}
-.how-arrow-h {
-    font-size: 26px;
+
+@media (min-width: 1100px) {
+  .how-step-box:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    top: 50%;
+    right: -26px;
+    transform: translateY(-50%);
+    font-size: 22px;
     color: #1a7a3c;
+  }
+}
+
+@media (max-width: 1100px) {
+  .how-step-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .profile-actions {
@@ -131,7 +81,58 @@
 .detail-row:last-of-type {
   border-bottom: none;
 }
+
 /* Bipasha */
+.hiw-logo-section {
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+.hiw-new-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 14px;
+}
+.hiw-title {
+  font-size: 32px;
+  color: #1a2a1e;
+}
+
+.how-step-box {
+  min-height: 220px;
+  border: 2px solid #1a7a3c;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffffff;
+  padding: 24px 20px;
+  box-shadow: 0 4px 14px rgba(26, 122, 60, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+  position: relative;
+}
+.how-step-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(26, 122, 60, 0.28);
+}
+.how-step-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 14px;
+}
+.how-step-box h4 {
+  font-size: 16px;
+  color: #1a2a1e;
+  margin-bottom: 8px;
+}
+.how-step-box p {
+  font-size: 13px;
+  color: #666;
+}
+
 .detail-label {
   font-weight: 600;
   font-size: 14px;
@@ -147,6 +148,15 @@
 }
 /* End*/
 
+.content-columns {
+  display: flex;
+  gap: 20px;
+}
+.main-column {
+  flex: 1;
+  min-width: 0; 
+}
+
 /* misty for making the project responsive */
 @media (max-width: 768px) {
   .dashboard-layout .dashboard-content {
@@ -159,10 +169,26 @@
   .welcome-name {
     font-size: 22px;
   }
-  .how-step {
-    width: 110px;
-    height: 110px;
-    font-size: 13px;
+  .how-step-box {
+    width: 160px;
+    min-height: 190px;
+    padding: 16px 12px;
+  }
+  .how-step-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .content-columns {
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .sidebar-nav .sidebar-link {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  .how-step-row {
+    gap: 10px;
   }
 }
 @media (max-width: 480px) {
@@ -175,32 +201,6 @@
     text-align: left;
   }
   .profile-actions {
-    flex-direction: column;
-  }
-}
-@media (max-width: 600px) {
-  .sidebar-nav .sidebar-link {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-  .how-step-row {
-    gap: 10px;
-  }
-  .how-arrow-h {
-    display: none; 
-  }
-}
-.content-columns {
-  display: flex;
-  gap: 20px;
-}
-.main-column {
-  flex: 1;
-  min-width: 0; 
-}
-
-@media (max-width: 768px) {
-  .content-columns {
     flex-direction: column;
   }
 }
@@ -221,8 +221,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #1a7a3c;
-  color: white;
+  background-color: #ffffff;
+  color: #1a7a3c;
   padding: 30px 50px;
   border-radius: 12px;
   text-align: center;
@@ -236,9 +236,6 @@
   height: 50px;
   line-height: 50px;
   margin: 0 auto 12px;
-  background-color: white;
-  color: #1a7a3c;
-  border-radius: 50%;
   font-size: 26px;
   font-weight: bold;
 }

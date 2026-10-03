@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { clearLogin } from './auth';
+import DoorMenu from './sidebar';
+import { useAuth } from './AuthContext'; 
 
 function FoodRequests() {
   const navigate = useNavigate();
-  const ngo = { name: 'Food For All Foundation' };
+  const { user, logout: clearAuthUser } = useAuth(); 
+  const ngo = { name: user?.name || 'NGO' }; 
 
   const [requests, setRequests] = useState([]);
   const [acceptedPopups, setAcceptedPopups] = useState([]);
@@ -38,10 +41,8 @@ function FoodRequests() {
       });
       const data = await res.json();
       const donations = data.donations || [];
-      const visible = donations.filter(
-        (item) => item.remainingPackets > 0 && !hiddenIds.includes(item._id)
-      );
-      setRequests(visible);
+      // keep every donation that still has packets left
+      setRequests(donations.filter((item) => item.remainingPackets > 0));
     } catch (err) {
       console.log(err);
       setRequests([]);
@@ -86,17 +87,19 @@ function FoodRequests() {
         return;
       }
 
-      setHiddenIds((prev) => [...prev, donationId]);
-      setRequests((prev) => prev.filter((item) => item._id !== donationId));
+      // clear the input and reload from the server.
+      // the card stays if there are still packets left.
+      setPacketInputs((prev) => ({ ...prev, [donationId]: '' }));
+      fetchDonations();
     } catch (err) {
       console.log(err);
       setErrorMsg('Something went wrong. Please try again.');
     }
   };
 
+  // only Decline hides a card
   const handleDecline = (id) => {
     setHiddenIds((prev) => [...prev, id]);
-    setRequests((prev) => prev.filter((item) => item._id !== id));
   };
 
   async function handleLogout() {
@@ -108,8 +111,11 @@ function FoodRequests() {
     } catch (err) {
     }
     clearLogin();
+    clearAuthUser(); // NOTUN
     navigate('/log-in', { state: { role: 'ngo' }, replace: true });
   }
+
+  const visibleRequests = requests.filter((item) => !hiddenIds.includes(item._id));
 
   return (
     <>
@@ -121,6 +127,29 @@ function FoodRequests() {
             <p>Sharing Food, Sharing Hope</p>
           </div>
         </div>
+        <DoorMenu>
+          <Link to="/ngo-page" className="sidebar-link">
+            <span className="sidebar-icon">🏠</span>Home
+          </Link>
+          <Link to="/pro-ngo" className="sidebar-link">
+            <span className="sidebar-icon">👤</span>Profile
+          </Link>
+          <Link to="/food-requests" className="sidebar-link active">
+            <span className="sidebar-icon">🍱</span>Food Requests
+          </Link>
+          <Link to="/history-page" className="sidebar-link">
+            <span className="sidebar-icon">📜</span>History
+          </Link>
+          <Link to="/how-it-works" state={{ role: 'ngo' }} className="sidebar-link">
+            <span className="sidebar-icon">⚙️</span>How It Works
+          </Link>
+          <Link to="/about-us" state={{ role: 'ngo' }} className="sidebar-link">
+            <span className="sidebar-icon">ℹ️</span>About Us
+          </Link>
+          <a href="#" className="sidebar-link logout-link" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+            <span className="sidebar-icon">↪️</span>Logout
+          </a>
+        </DoorMenu>
       </header>
 
       {errorMsg && (
@@ -142,34 +171,6 @@ function FoodRequests() {
           {errorMsg}
         </div>
       )}
-
-      <div className="dashboard-layout">
-        <aside className="sidebar">
-          <nav className="sidebar-nav">
-            <Link to="/ngo-page" className="sidebar-link">
-              <span className="sidebar-icon">🏠</span>Home
-            </Link>
-            <Link to="/pro-ngo" className="sidebar-link">
-              <span className="sidebar-icon">👤</span>Profile
-            </Link>
-            <Link to="/food-requests" className="sidebar-link active">
-              <span className="sidebar-icon">🍱</span>Food Requests
-            </Link>
-            <Link to="/history-page" className="sidebar-link">
-              <span className="sidebar-icon">📜</span>History
-            </Link>
-            <Link to="/how-it-works" state={{ role: 'ngo' }} className="sidebar-link">
-              <span className="sidebar-icon">⚙️</span>How It Works
-            </Link>
-            <Link to="/about-us" state={{ role: 'ngo' }} className="sidebar-link">
-              <span className="sidebar-icon">ℹ️</span>About Us
-            </Link>
-            <a href="#" className="sidebar-link logout-link" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
-              <span className="sidebar-icon">↪️</span>Logout
-            </a>
-          </nav>
-        </aside>
-
         <div className="dashboard-content">
           <section className="welcome-banner">
             <h2 className="welcome-name">{ngo.name}</h2>
@@ -193,12 +194,12 @@ function FoodRequests() {
                     </tr>
                   </thead>
                   <tbody>
-                    {requests.length === 0 ? (
+                    {visibleRequests.length === 0 ? (
                       <tr>
                         <td colSpan="5">No food requests right now.</td>
                       </tr>
                     ) : (
-                      requests.map((item) => (
+                      visibleRequests.map((item) => (
                         <tr key={item._id}>
                           <td>{item.restaurantId?.name || 'N/A'}</td>
                           <td>{item.contact || 'N/A'}</td>
@@ -228,9 +229,8 @@ function FoodRequests() {
             </div>
           </section>
         </div>
-      </div>
 
-      <footer className="site-footer">
+     <footer className="site-footer">
         <div className="footer-col">
           <h4><span className="footer-hope">Hope</span><span className="hand">Hand</span></h4>
           <p>Sharing Food, Sharing Hope</p>
@@ -249,8 +249,12 @@ function FoodRequests() {
             <button className="modal-close" onClick={closeAcceptedPopup}>✕</button>
             <h2>🎉 Request Accepted!</h2>
             <p style={{ marginBottom: '10px' }}>
-            Your request has been accepted by this restaurant. Please contact them now:
+              Your request has been accepted by this restaurant. Please contact them now:
             </p>
+            <div className="form-group">
+              <label>Restaurant Name</label>
+              <p>{acceptedPopups[0]?.donationId?.restaurantId?.name || 'N/A'}</p>
+            </div>
             <div className="form-group">
               <label>Restaurant Contact</label>
               <p>{acceptedPopups[0]?.donationId?.contact || 'N/A'}</p>
@@ -261,7 +265,7 @@ function FoodRequests() {
             </div>
             <div className="form-group">
               <label>Packets</label>
-              <p>{acceptedPopups[0]?.donationId?.packets ?? 'N/A'}</p>
+              <p>{acceptedPopups[0]?.requestedPackets ?? 'N/A'}</p>
             </div>
             <button className="btn btn-green" onClick={closeAcceptedPopup}>OK</button>
           </div>

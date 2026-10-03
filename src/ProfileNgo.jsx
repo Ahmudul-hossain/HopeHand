@@ -1,12 +1,81 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { clearLogin } from './auth';
+import DoorMenu from './sidebar';
+import Footer from './Footer';
+import { useAuth } from './AuthContext'; // NOTUN
+
+const contactRegex = /^0\d{10}$/;
+
+const FIELDS = [
+  { name: "name", label: "NGO / Organization Name", type: "text" },
+  { name: "contact", label: "Contact No", type: "text", inputMode: "numeric", maxLength: 11 },
+  { name: "email", label: "Email Address", type: "email" },
+  { name: "address", label: "Address", type: "text" },
+];
 
 function ProfileNgo() {
-  const ngo = {
-    name: 'Food For All Foundation',
-    contact: '123-456-7890',
-    email: 'ngoname@gmail.com',
-    address: '123 Main street, khailgoan, Dhaka',
-  };
+  const navigate = useNavigate();
+  const { logout: clearAuthUser } = useAuth(); // NOTUN
+  const [ngo, setNgo] = useState({ name: "", contact: "", email: "", address: "" });
+  const [isEditing, setIsEditing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [contactError, setContactError] = useState("");
+
+  /*Bipasha*/
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await fetch('http://localhost:4000/auth/me', {
+          credentials: 'include',
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          setNgo(data.user);
+        }
+      } catch (err) { }
+    }
+    fetchProfile();
+  }, []);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    if (name === "contact") {
+      setNgo({ ...ngo, contact: value.replace(/\D/g, "").slice(0, 11) });
+      setContactError("");
+      return;
+    }
+
+    setNgo({ ...ngo, [name]: value });
+  }
+
+  function handleSave() {
+    if (!contactRegex.test(ngo.contact)) {
+      setContactError("Contact number must be 11 digits and start with 0.");
+      return;
+    }
+
+    setContactError("");
+    setIsEditing(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 2500);
+  }
+
+  /*misty*/
+  async function handleLogout() {
+    try {
+      await fetch('http://localhost:4000/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (err) {
+      // backend na thakleo frontend theke logout hoye jabe
+    }
+    clearLogin();
+    clearAuthUser(); // NOTUN
+    navigate('/log-in', { state: { role: 'ngo' }, replace: true });
+  }
 
   return (
     <>
@@ -18,76 +87,67 @@ function ProfileNgo() {
             <p>Sharing Food, Sharing Hope</p>
           </div>
         </div>
+
+        <DoorMenu>
+          <Link to="/ngo-page" className="sidebar-link"><span className="sidebar-icon">🏠</span> Home</Link>
+          <Link to="/pro-ngo" className="sidebar-link active"><span className="sidebar-icon">👤</span> Profile</Link>
+          <Link to="/food-requests" className="sidebar-link"> <span className="sidebar-icon">🍱</span>Food Requests</Link>
+          <Link to="/history-page" className="sidebar-link"><span className="sidebar-icon">📜</span>History</Link>
+          <Link to="/how-it-works" state={{ role: 'ngo' }} className="sidebar-link"><span className="sidebar-icon">⚙️</span> How It Works</Link>
+          <Link to="/about-us" state={{ role: 'ngo' }} className="sidebar-link"><span className="sidebar-icon">ℹ️</span>About Us </Link>
+          <a href="#" className="sidebar-link logout-link" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+            <span className="sidebar-icon">↪️</span>Logout
+          </a>
+        </DoorMenu>
       </header>
 
-      <div className="dashboard-layout">
-        <aside className="sidebar">
-          <nav className="sidebar-nav">
-            <Link to="/ngopage" className="sidebar-link">
-              <span className="sidebar-icon">🏠</span>Home
-            </Link>
-            <Link to="/profileNGO" className="sidebar-link active">
-              <span className="sidebar-icon">👤</span>Profile
-            </Link>
-            <Link to="/how-it-works" className="sidebar-link">
-              <span className="sidebar-icon">⚙️</span>How It Works
-            </Link>
-            <Link to="/aboutus" className="sidebar-link">
-              <span className="sidebar-icon">ℹ️</span>About Us
-            </Link>
-            <a href="#" className="sidebar-link logout-link" onClick={(e) => e.preventDefault()}>
-             <span className="sidebar-icon">↪️</span>Logout
-              </a>
-          </nav>
-        </aside>
+          <section className="hero">
+        <img src="/images/NGO_LOGO.jpg" alt="NGO logo" className="team-icon" />
+        <h2>NGO <span className="brand-green">Details</span></h2>
+        <div className="divider"></div>
+      </section>
 
-        <div className="dashboard-content">
-          <section className="welcome-banner">
-            <h2 className="welcome-name">{ngo.name}</h2>
-          </section>
+      <section className="registration-form">
+        <form onSubmit={(e) => { e.preventDefault(); if (isEditing) handleSave(); }}>
+          {FIELDS.map(({ name, label, ...inputProps }) => (
+            <div className="form-group" key={name}>
+              <label htmlFor={name}>{label}</label>
+              <input
+                {...inputProps}
+                id={name}
+                name={name}
+                value={ngo[name]}
+                onChange={handleChange}
+                readOnly={!isEditing}
+              />
+              {name === "contact" && contactError && (
+                <p style={{ color: "red" }}>{contactError}</p>
+              )}
+            </div>
+          ))}
 
-          <section className="content-columns">
-            <div className="main-column">
-              <div className="donations-panel">
-                <div className="panel-header">
-                  <h3>NGO Details</h3>
-                </div>
-                <hr className="panel-divider" />
-                  <div className="detail-row">
-                    <span className="detail-label">NGO / Organization Name</span>
-                    <span className="detail-value">{ngo.name}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Contact No</span>
-                    <span className="detail-value">{ngo.contact}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Email Address</span>
-                    <span className="detail-value">{ngo.email}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Address</span>
-                    <span className="detail-value">{ngo.address}</span>
-                  </div>
+          {!isEditing ? (
+            <button type="button" className="btn btn-green" onClick={() => setIsEditing(true)}>
+              Edit Profile
+            </button>
+          ) : (
+            <button type="button" className="btn btn-orange" onClick={handleSave}>
+              Save Profile
+            </button>
+          )}
+        </form>
+      </section>
 
-                  <div className="profile-actions">
-                    <a href="#" className="btn btn-green">Edit Profile</a>
-                    <a href="#" className="btn btn-orange">Save Profile</a>
-                  </div>
-                </div>
-              </div>
-          </section>
+      {showSuccess && (
+        <div className="success-popup">
+          <div className="success-tick">✓</div>
+          <p>Profile saved successfully!</p>
         </div>
-      </div>
+      )}
 
-      <footer className="site-footer">
-        <div className="footer-col">
-          <h4><span className="footer-hope">Hope</span><span className="hand">Hand</span></h4>
-          <p>Sharing Food, Sharing Hope</p>
-           <p>Every meal shared is a step towards a hunger-free community.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
+
 export default ProfileNgo;

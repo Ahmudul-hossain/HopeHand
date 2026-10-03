@@ -4,7 +4,7 @@ import Request from "../models/Request.js";
 
 // NGO part: shob restaurant er shob donation dekha (jegulate packets baki ache)
 export const getAllDonations = asyncHandler(async (req, res) => {
-  const myRequests = await Request.find({ ngoId: req.userId }).select("donationId");
+  const myRequests = await Request.find({ ngoId: req.userId, status: { $ne: "declined" } }).select("donationId");
   const requestedDonationIds = myRequests.map((r) => r.donationId.toString());
 
   const donations = await Donation.find({

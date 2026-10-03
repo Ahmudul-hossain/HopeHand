@@ -10,16 +10,20 @@ export const createRequest = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: "donationId and requestedPackets are required" });
   }
 
+  //misty
+  if (Number.isNaN(Number(requestedPackets)) || Number(requestedPackets) <= 0) {
+    return res.status(400).json({ error: "Please give a valid packet number" });
+  }
+
   const donation = await Donation.findById(donationId);
   if (!donation) {
     return res.status(404).json({ error: "Donation not found" });
-  }                 
-
-  if (Number(requestedPackets) > donation.remainingPackets) {
-    return res.status(400).json({ error: "Ei koto packets available nai" });
   }
 
-  const alreadyRequested = await Request.findOne({ donationId, ngoId: req.userId });
+  if (Number(requestedPackets) > donation.remainingPackets) {
+    return res.status(400).json({ error: "Not enough packets available" }); 
+  }
+  const alreadyRequested = await Request.findOne({ donationId, ngoId: req.userId, status: { $ne: "declined" } });
   if (alreadyRequested) {
     return res.status(400).json({ error: "You already requested this donation" });
   }
