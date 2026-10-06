@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//resturant er donation er database 
+
 const donationSchema = new mongoose.Schema({
   restaurantId: {
     type: mongoose.Schema.Types.ObjectId,

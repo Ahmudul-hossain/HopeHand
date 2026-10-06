@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//pending rq dekhay
+
 const requestSchema = new mongoose.Schema({
   donationId: {
     type: mongoose.Schema.Types.ObjectId,

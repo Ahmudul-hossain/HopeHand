@@ -5,7 +5,7 @@ import DoorMenu from './sidebar';
 import SettingsMenu from './SettingsMenu';
 import Footer from './Footer';
 import { useAuth } from './AuthContext';
-
+//kunu req ajke hoise kina check dibe
 function isToday(dateStr) {
   if (!dateStr) return false;
   return new Date(dateStr).toDateString() === new Date().toDateString();
@@ -29,7 +29,7 @@ function Restaurant() {
   const [deleteError, setDeleteError] = useState('');
   const [showAllDonations, setShowAllDonations] = useState(false);
   const [acceptedHistory, setAcceptedHistory] = useState([]);
-
+//current time dekhe greetings chnage kore 
   function getGreeting() {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good Morning';
@@ -50,7 +50,7 @@ function Restaurant() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
-
+//back button chaple ber hote na diye warning dekhay log out korte
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
 
