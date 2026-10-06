@@ -2,17 +2,17 @@ import { asyncHandler } from "../middlewares/asyncHandler.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-
+//user login korle tar id niye ekta jwt token bananu hocce
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-
+//login korar por token browser er cokkie rakha
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
-
+//log in button chaple ei func kaaj
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -36,7 +36,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       error: `This account is already registered as ${displayRole}`,
     });
   }
-
+//shob info thik thakle user id diye login token kora hocce
   const token = generateToken(user._id);
   res.cookie("token", token, cookieOptions);
 
@@ -45,7 +45,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     user: { id: user._id, name: user.name, email: user.email, role: user.role },
   });
 });
-
+//logout
 export const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie("token", cookieOptions);
   return res.status(200).json({ message: "Logged out" });
@@ -79,7 +79,7 @@ export const updateGoal = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Goal updated", user });
 });
 
-// notun: profile er name, contact, address, email update kora (format check shoho)
+//  profile er name, contact, address, email update kora (format check shoho)
 export const updateProfile = asyncHandler(async (req, res) => {
   const { name, contact, address, email } = req.body;
 

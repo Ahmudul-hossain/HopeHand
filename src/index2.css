@@ -557,19 +557,6 @@ body:has(.settings-drawer.open) .settings-toggle {
   position: relative;
   z-index: 1;
 }
-.settings-drawer::after {
-  content: "";
-  position: absolute;
-  right: -30px;
-  bottom: -30px;
-  width: 160px;
-  height: 160px;
-  background-image: url('/images/logo-icon.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.06;
-  pointer-events: none;
-}
 .form-group .password-wrap {
   position: relative;
 }

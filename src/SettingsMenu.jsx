@@ -1,12 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function SettingsMenu() {
   const [open, setOpen] = useState(false);
   const [activeBox, setActiveBox] = useState(null); // 'complain' | 'help' | null
 
-  const [ngoName, setNgoName] = useState('');
+  // login kora user er role: 'restaurant' ba 'ngo'
+  const [role, setRole] = useState('');
+  const [targetName, setTargetName] = useState('');
   const [complainText, setComplainText] = useState('');
   const [complainMsg, setComplainMsg] = useState('');
+
+  // restaurant hole NGO er name, NGO hole Restaurant er name complain korbe
+  const targetLabel = role === 'ngo' ? 'Restaurant' : 'NGO';
+
+  useEffect(() => {
+    async function fetchRole() {
+      try {
+        const res = await fetch('http://localhost:4000/auth/me', {
+          credentials: 'include',
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          setRole(data.user.role);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchRole();
+  }, []);
 
   function openBox(box) {
     setActiveBox(box);
@@ -19,7 +41,7 @@ function SettingsMenu() {
   }
 
   async function handleSubmitComplain() {
-    if (ngoName.trim() === '' || complainText.trim() === '') {
+    if (targetName.trim() === '' || complainText.trim() === '') {
       setComplainMsg('Please fill both fields');
       return;
     }
@@ -28,7 +50,7 @@ function SettingsMenu() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ ngoName, message: complainText }),
+        body: JSON.stringify({ targetName, message: complainText }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -36,7 +58,7 @@ function SettingsMenu() {
         return;
       }
       setComplainMsg('Complaint submitted!');
-      setNgoName('');
+      setTargetName('');
       setComplainText('');
       setTimeout(() => {
         closeModal();
@@ -75,7 +97,7 @@ function SettingsMenu() {
           <button type="button" className="settings-option-box" onClick={() => openBox('complain')}>
             <span className="settings-option-icon">📝</span>
             <span className="settings-option-title">Complain Box</span>
-            <span className="settings-option-desc">Report an issue with any NGO</span>
+            <span className="settings-option-desc">Report an issue with any {targetLabel}</span>
           </button>
 
           <button type="button" className="settings-option-box" onClick={() => openBox('help')}>
@@ -94,12 +116,12 @@ function SettingsMenu() {
             <h2>📝 Complain Box</h2>
 
             <div className="form-group">
-              <label>NGO Name</label>
+              <label>{targetLabel} Name</label>
               <input
                 type="text"
-                placeholder="Which NGO is this about?"
-                value={ngoName}
-                onChange={(e) => setNgoName(e.target.value)}
+                placeholder={`Which ${targetLabel} is this about?`}
+                value={targetName}
+                onChange={(e) => setTargetName(e.target.value)}
               />
             </div>
 

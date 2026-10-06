@@ -23,7 +23,7 @@ function RestaurantHistory() {
         credentials: 'include',
       });
       const data = await res.json();
-      setHistory(data.history || []); // BODLANO: data.history na thakle [] hobe
+      setHistory(data.history || []); 
     } catch (err) {
       console.log(err);
     }
@@ -67,7 +67,7 @@ function RestaurantHistory() {
     } catch (err) {
     }
     clearLogin();
-    clearAuthUser(); // NOTUN
+    clearAuthUser(); 
     navigate('/log-in', { state: { role: 'restaurant' }, replace: true });
   }
 
@@ -149,7 +149,18 @@ function RestaurantHistory() {
 
           <section className="content-columns">
             <div className="main-column">
-              <div className="donations-panel history-panel">
+              <div
+                className="history-panel"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  boxShadow: 'none',
+                  backdropFilter: 'none',
+                  WebkitBackdropFilter: 'none',
+                  padding: 0,
+                  marginBottom: '1.5rem',
+                }}
+              >
                 <div className="panel-header">
                   <h3>My History</h3>
                 </div>

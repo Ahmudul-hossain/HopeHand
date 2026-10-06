@@ -2,7 +2,7 @@ import { asyncHandler } from "../middlewares/asyncHandler.js";
 import Request from "../models/Request.js";
 import Donation from "../models/Donation.js";
 
-// Restaurant part: nijer shob donation er upor asha request dekha
+// nijer shob donation er upor asha request dekha
 export const getRequestsForMyDonations = asyncHandler(async (req, res) => {
   const myDonations = await Donation.find({ restaurantId: req.userId }).select("_id");
   const myDonationIds = myDonations.map((d) => d._id);
@@ -14,7 +14,7 @@ export const getRequestsForMyDonations = asyncHandler(async (req, res) => {
   return res.status(200).json({ requests });
 });
 
-// Restaurant part: ekta request accept kora (remainingPackets komiye dibe)
+// ekta request accept kora (remainingPackets komiye dibe)
 export const acceptRequest = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -33,7 +33,7 @@ export const acceptRequest = asyncHandler(async (req, res) => {
   }
 
   request.status = "accepted";
-  await request.save();
+  await request.save();// remaining packets data base esave kora hocce
 
   const donation = await Donation.findById(request.donationId._id);
   donation.remainingPackets = Math.max(0, donation.remainingPackets - request.requestedPackets);
@@ -42,7 +42,7 @@ export const acceptRequest = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Request accepted", request });
 });
 
-// Restaurant part: ekta request decline kora
+//  ekta request decline kora
 export const declineRequest = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -63,7 +63,7 @@ export const declineRequest = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Request declined", request });
 });
 
-// Restaurant part: history (j shob request restaurant accept korche)
+// history (j shob request restaurant accept korche)
 export const getRestaurantHistory = asyncHandler(async (req, res) => {
   const myDonations = await Donation.find({ restaurantId: req.userId }).select("_id");
   const myDonationIds = myDonations.map((d) => d._id);
@@ -76,7 +76,7 @@ export const getRestaurantHistory = asyncHandler(async (req, res) => {
   return res.status(200).json({ history });
 });
 
-// Restaurant part: history theke ekta entry delete kora
+//  history theke ekta entry delete kora
 export const deleteHistoryEntry = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
